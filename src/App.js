@@ -4,7 +4,7 @@ import UserForm from "./components/UserForm";
 
 function App() {
   return (
-    <div className="bg-slate-400 py-10">
+    <div className=" h-[100%] py-[100px]">
       <UserForm/>
     </div>
   );
