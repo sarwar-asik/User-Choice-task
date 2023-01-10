@@ -1,26 +1,61 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const UserForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
+
+  const onSubmit = (user) => {
+    console.log(user);
+    fetch(`http://localhost:7000/userInfo`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        reset();
+      });
   };
 
+  const [sectors, setSectors] = useState([]);
+  useEffect(() => {
+    axios.get(`http://localhost:7000/sectors`).then((data) => {
+      console.log(data.data);
+      setSectors(data.data);
+    });
+  }, []);
+
+  const allData = [
+    { option: "Manufacturing" },
+    { option: "Construction materials" },
+    { option: "Electronics and Optics" },
+    { option: "Food and Beverage" },
+    { option: " confectionery products" },
+    { option: "fish products " },
+    { option: "meat products" },
+    { option: "dairy products" },
+    { option: "Bathroom/sauna" },
+    { option: "Bedroom" },
+    { option: "Children's room" },
+    { option: "Project furniture" },
+    { option: "Other" },
+  ];
+
   return (
-    <div className="max-w-[500px] shadow-2xl bg-blue-100 bg-opacity-[0.1] text-slate-200 py-10 px-10 rounded-[10px]  mx-auto">
+    <div className="max-w-[500px] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-300 py-10 px-10 rounded-[10px]  mx-auto card">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label
-          for="name"
-          className="block  mb-2 text-3xl font-mono font-semibold  dark:text-white"
-        >
+        <label className="block  mb-2 text-3xl font-mono font-semibold  dark:text-white">
           Your Name
         </label>
-
         <input
           type="text"
           placeholder="Your Name"
@@ -28,27 +63,44 @@ const UserForm = () => {
           className=" border text-slate-500 border-gray-300 w-full my-2 rounded-[3px]"
         />
         {errors.name?.type === "required" && (
-          <p role="alert" className="text-red-500">
+          <p role="alert" className="text-red-500 font-mono">
             Name is required
           </p>
         )}
 
-        <label
-          for="sector"
-          className="block mb-2 mt-5 text-3xl font-semibold font-serif dark:text-white"
-        >
+        <label className="block mb-2 mt-5 text-3xl font-semibold font-mono dark:text-white">
           Select a sector
         </label>
 
         <select
           {...register("sector", { required: true })}
-          className="overflow-aut text-slate-500 w-full appearance-none mt-2 h-[100px] "
+          className="overflow-a text-slate-500 w-full appearance-none mt-2  "
+          multiple=""
+          size="15"
         >
-          <option value="Manufacturing">Manufacturing</option>
-          <option value="Furniture">Furniture</option>
-          <option value="Machinery">Machinery</option>
-          <option value="Other">Other</option>
+          <option value={sectors?.[0]?.sector}> {sectors?.[0]?.sector}</option>
+          {sectors[0]?.options?.map((child) => {
+            const { name } = child;
+
+            return <option value={name}> &nbsp; &nbsp; {name} </option>;
+          })}
+
+     <option value={sectors?.[1]?.sector}> {sectors?.[1]?.sector}</option> 
+          {sectors[1]?.options?.map((child) => {
+            const { name } = child;
+
+            return <option value={name}> &nbsp; {name} </option>;
+          })}
+
+     <option value={sectors?.[2]?.sector}> {sectors?.[2]?.sector}</option> 
+          {sectors[2]?.options?.map((child) => {
+            const { name } = child;
+
+            return <option value={name}> &nbsp; {name} </option>;
+          })}
+
         </select>
+
         <div className="mt-5 flex items-center  gap-3">
           <input
             type="checkbox"
@@ -56,17 +108,14 @@ const UserForm = () => {
             {...register("terms", { required: true })}
             className=""
           />
-          <label
-            for="name"
-            class=" text-lg font-semibold font-mono dark:text-white"
-          >
+          <label className=" text-lg font-semibold font-mono dark:text-white">
             Agree to Terms and Condition
           </label>
         </div>
 
         <input
           type="submit"
-          className="bg-blue-500 block py-3  px-3 rounded-[5px] mt-5 font-bold text-xl"
+          className="bg-blue-500 block py-3  px-3 rounded-[5px] mt-5 font-bold text-xl text-white"
         />
       </form>
     </div>
