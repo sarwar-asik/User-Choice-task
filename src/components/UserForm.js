@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserForm = () => {
   const {
@@ -22,6 +24,7 @@ const UserForm = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        toast(` Added ${user.sector}`);
         reset();
       });
   };
@@ -33,22 +36,6 @@ const UserForm = () => {
       setSectors(data.data);
     });
   }, []);
-
-  const allData = [
-    { option: "Manufacturing" },
-    { option: "Construction materials" },
-    { option: "Electronics and Optics" },
-    { option: "Food and Beverage" },
-    { option: " confectionery products" },
-    { option: "fish products " },
-    { option: "meat products" },
-    { option: "dairy products" },
-    { option: "Bathroom/sauna" },
-    { option: "Bedroom" },
-    { option: "Children's room" },
-    { option: "Project furniture" },
-    { option: "Other" },
-  ];
 
   return (
     <div className="max-w-[500px] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-300 py-10 px-10 rounded-[10px]  mx-auto card">
@@ -85,20 +72,19 @@ const UserForm = () => {
             return <option value={name}> &nbsp; &nbsp; {name} </option>;
           })}
 
-     <option value={sectors?.[1]?.sector}> {sectors?.[1]?.sector}</option> 
+          <option value={sectors?.[1]?.sector}> {sectors?.[1]?.sector}</option>
           {sectors[1]?.options?.map((child) => {
             const { name } = child;
 
             return <option value={name}> &nbsp; {name} </option>;
           })}
 
-     <option value={sectors?.[2]?.sector}> {sectors?.[2]?.sector}</option> 
+          <option value={sectors?.[2]?.sector}> {sectors?.[2]?.sector}</option>
           {sectors[2]?.options?.map((child) => {
             const { name } = child;
 
             return <option value={name}> &nbsp; {name} </option>;
           })}
-
         </select>
 
         <div className="mt-5 flex items-center  gap-3">
