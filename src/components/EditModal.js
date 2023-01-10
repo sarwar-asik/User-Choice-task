@@ -1,10 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const UserForm = () => {
+const EditModal = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  //   console.log("user Data", state);
   const {
     register,
     handleSubmit,
@@ -12,20 +16,27 @@ const UserForm = () => {
     formState: { errors },
   } = useForm();
 
+  const [update, setUpdate] = useState(null);
+
   const onSubmit = (user) => {
-    console.log(user);
-    fetch(`     https://task-server-ebon.vercel.app/userInfo`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
+    // console.log(user);
+    fetch(
+      `     https://task-server-ebon.vercel.app/EditUser?id=${state?._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        toast(` Added ${user.sector}`);
+        toast(` Edited ${user.sector}`);
         reset();
+        setUpdate(data);
+        navigate("/user");
       });
   };
 
@@ -34,10 +45,10 @@ const UserForm = () => {
     axios
       .get(`     https://task-server-ebon.vercel.app/sectors`)
       .then((data) => {
-        console.log(data.data);
+        //   console.log(data.data);
         setSectors(data.data);
       });
-  }, []);
+  }, [update]);
 
   return (
     <div className="max-w-[60%] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-300 py-10 px-10 rounded-[10px]  mx-auto card">
@@ -48,6 +59,7 @@ const UserForm = () => {
         <input
           type="text"
           placeholder="Your Name"
+          defaultValue={state?.name}
           {...register("name", { required: true, maxLength: 30 })}
           className=" border text-slate-500 border-gray-300 w-full my-2 rounded-[3px]"
         />
@@ -67,6 +79,12 @@ const UserForm = () => {
           multiple=""
           size="15"
         >
+          <option
+            value={state?.sector}
+            className="bg-blue-400 text-white text-center"
+          >
+            Selected &nbsp; {state?.sector}
+          </option>
           <option value={sectors?.[0]?.sector}> {sectors?.[0]?.sector}</option>
           {sectors[0]?.options?.map((child) => {
             const { name } = child;
@@ -104,10 +122,11 @@ const UserForm = () => {
         <input
           type="submit"
           className="bg-blue-500 block py-3  px-3 rounded-[5px] mt-5 font-bold text-xl text-white"
+          value={"Update"}
         />
       </form>
     </div>
   );
 };
 
-export default UserForm;
+export default EditModal;
