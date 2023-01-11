@@ -20,7 +20,7 @@ const UserInfo = () => {
   };
   return (
     <div>
-      <div class="relative max-w-[60%] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-100  overflow-x-auto mx-auto rounded-lg">
+      <div class="relative sm:max-w-full md:max-w-[80%] lg:max-w-[60%] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-100  overflow-x-auto mx-auto rounded-lg">
         <table class="w-full text-sm text-left text-gray-100 dark:text-gray-400">
           <thead class=" text-gray-200 uppercase dark:bg-gray-700 dark:text-gray-400 text-xl">
             <tr>

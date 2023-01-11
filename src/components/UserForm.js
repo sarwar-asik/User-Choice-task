@@ -40,7 +40,7 @@ const UserForm = () => {
   }, []);
 
   return (
-    <div className="max-w-[60%] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-300 py-10 px-10 rounded-[10px]  mx-auto card">
+    <div className="sm:max-w-full md:max-w-[80%] lg:max-w-[60%] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-300 py-10 px-10 rounded-[10px]  mx-auto card">
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className="block  mb-2 text-3xl font-mono font-semibold  dark:text-white">
           Your Name
