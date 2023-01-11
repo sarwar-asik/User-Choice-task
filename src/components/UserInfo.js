@@ -1,15 +1,19 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Loader from "../loader/Loader";
 
 const UserInfo = () => {
   const navigate = useNavigate();
   const [users, setuser] = useState([]);
+  const [loading, setLoader] = useState(true);
+
 
   useEffect(() => {
     axios.get(`     https://task-server-ebon.vercel.app/users`).then((data) => {
       console.log(data.data);
       setuser(data.data);
+      setLoader(false)
     });
   }, []);
   //   console.log(users);
@@ -21,6 +25,11 @@ const UserInfo = () => {
   return (
     <div>
       <div class="relative sm:max-w-full md:max-w-[80%] lg:max-w-[60%] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-100  overflow-x-auto mx-auto rounded-lg">
+      {
+      loading &&
+
+    <Loader/>
+      }
         <table class="w-full text-sm text-left text-gray-100 dark:text-gray-400">
           <thead class=" text-gray-200 uppercase dark:bg-gray-700 dark:text-gray-400 text-xl">
             <tr>

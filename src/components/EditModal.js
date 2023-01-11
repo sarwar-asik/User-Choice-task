@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../loader/Loader";
 
 const EditModal = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [loading, setLoader] = useState(true);
+
   //   console.log("user Data", state);
   const {
     register,
@@ -47,13 +50,15 @@ const EditModal = () => {
       .then((data) => {
         //   console.log(data.data);
         setSectors(data.data);
+        setLoader(false);
       });
   }, [update]);
 
   return (
     <div className="sm:max-w-full md:max-w-[80%] lg:max-w-[60%] shadow-2xl bg-slate-400 bg-opacity-[0.4] text-blue-300 py-10 px-10 rounded-[10px]  mx-auto card">
+      {loading && <Loader />}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label className="block  mb-2 text-3xl font-mono font-semibold  dark:text-white">
+        <label className="block  mb-2 lg:text-3xl sm:text-xl md:text-2xl font-mono font-semibold  dark:text-white">
           Your Name
         </label>
         <input
@@ -69,7 +74,7 @@ const EditModal = () => {
           </p>
         )}
 
-        <label className="block mb-2 mt-5 text-3xl font-semibold font-mono dark:text-white">
+        <label className="block mb-2 mt-5 lg:text-3xl sm:text-xl md:text-2xl font-semibold font-mono dark:text-white">
           Select a sector
         </label>
 
