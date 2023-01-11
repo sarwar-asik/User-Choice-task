@@ -1,12 +1,12 @@
-import React from 'react';
-import UserForm from './UserForm';
+import React from "react";
+import UserForm from "./UserForm";
 
 const Home = () => {
-    return (
-        <div>
-            <UserForm/>
-        </div>
-    );
+  return (
+    <div>
+      <UserForm />
+    </div>
+  );
 };
 
 export default Home;

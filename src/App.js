@@ -16,7 +16,7 @@ function App() {
       children: [
         { path: "/", element: <Home /> },
         { path: "/user", element: <UserInfo /> },
-        { path: "/editUser/:name", element: <EditModal/> },
+        { path: "/editUser/:name", element: <EditModal /> },
       ],
     },
   ]);
